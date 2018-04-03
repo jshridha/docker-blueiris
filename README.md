@@ -22,3 +22,4 @@ docker run -d \
   jshridha/blueiris
   ```
 # Known Issues:
+* Saving and restoring settings backup via the BlueIris interface does not work!
