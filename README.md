@@ -17,6 +17,7 @@ docker run -d \
   --name="BlueIris" \
   -p novnc-port:8080 \
   -p vnc-port:5900 \
+  -p blueiris-webserver-port:81 \
   -v /path/to/data:/root/prefix32:rw \
   jshridha/blueiris
   ```
