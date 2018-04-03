@@ -28,7 +28,7 @@ RUN \
  apt-key add Release.key && \
  apt-add-repository https://dl.winehq.org/wine-builds/ubuntu/ && \
  apt-get update && \
- apt-get -y install --install-recommends winehq-stable
+ apt-get -y install --install-recommends winehq-stable wine-mono wine-gecko
 
 RUN \
  cd /usr/bin/ && \
