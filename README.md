@@ -10,7 +10,7 @@ This container runs:
 * [noNVC](https://kanaka.github.io/noVNC/) - A HTML5 canvas vnc viewer
 * Fluxbox - a small window manager
 * WINE - to run Windows executables on linux
-* blueiris.exe - official Windows Jottacloud client
+* blueiris.exe - official Windows BlueIris
 
 ```
 docker run -d \
