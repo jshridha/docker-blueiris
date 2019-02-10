@@ -28,13 +28,13 @@ RUN \
  apt-key add Release.key && \
  apt-add-repository https://dl.winehq.org/wine-builds/ubuntu/ && \
  apt-get update && \
- apt-get -y install --install-recommends winehq-stable wine-mono wine-gecko
+ apt-get -y install --allow-unauthenticated --install-recommends winehq-devel wine-mono wine-gecko
 
 RUN \
  cd /usr/bin/ && \
  wget  https://raw.githubusercontent.com/Winetricks/winetricks/master/src/winetricks && \
  chmod +x winetricks && \
- sh winetricks corefonts
+ sh winetricks corefonts wininet
 
 ADD supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 ADD blueiris.sh /root/blueiris.sh
