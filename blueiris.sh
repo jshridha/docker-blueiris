@@ -11,7 +11,7 @@ fi
 chown -R root:root /root/prefix32
 
 if [ ! -e "$BLUEIRIS_EXE" ] ; then
-    if [ ! -e "$INSTALL_EXE"] ; then
+    if [ ! -e "$INSTALL_EXE" ] ; then
         wget http://blueirissoftware.com/blueiris.exe
     fi
     wine blueiris.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /SP-
