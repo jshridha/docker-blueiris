@@ -6,6 +6,10 @@ ENV DEBIAN_FRONTEND noninteractive
 ENV LC_ALL C.UTF-8
 ENV LANG en_US.UTF-8
 ENV LANGUAGE en_US.UTF-8
+ENV WINEPREFIX /root/prefix32
+ENV WINEARCH win32
+ENV DISPLAY :0
+ENV BLUEIRIS_VERSION=5
 
 RUN apt-get update && \ 
     apt-get install -y wget gnupg software-properties-common
@@ -17,10 +21,6 @@ RUN dpkg --add-architecture i386 && \
     
 RUN apt-get update && apt-get -y install xvfb x11vnc xdotool wget tar supervisor winehq-stable net-tools fluxbox cabextract
 ADD supervisord.conf /etc/supervisor/conf.d/supervisord.conf
-
-ENV WINEPREFIX /root/prefix32
-ENV WINEARCH win32
-ENV DISPLAY :0
 
 WORKDIR /root/
 RUN wget -O - https://github.com/novnc/noVNC/archive/v1.1.0.tar.gz | tar -xzv -C /root/ && mv /root/noVNC-1.1.0 /root/novnc && ln -s /root/novnc/vnc_lite.html /root/novnc/index.html
