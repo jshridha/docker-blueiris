@@ -1,13 +1,32 @@
-FROM phusion/baseimage
-MAINTAINER jshridha
+ 
+FROM ubuntu:bionic
 
-# Set correct environment variables
 ENV HOME /root
 ENV DEBIAN_FRONTEND noninteractive
 ENV LC_ALL C.UTF-8
 ENV LANG en_US.UTF-8
 ENV LANGUAGE en_US.UTF-8
 
+RUN apt-get update && \ 
+    apt-get install -y wget gnupg software-properties-common
+
+RUN dpkg --add-architecture i386 && \
+    wget -nc https://dl.winehq.org/wine-builds/winehq.key && \
+    apt-key add winehq.key && \
+    apt-add-repository https://dl.winehq.org/wine-builds/ubuntu/
+    
+RUN apt-get update && apt-get -y install xvfb x11vnc xdotool wget tar supervisor winehq-stable net-tools fluxbox cabextract
+ADD supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+
+ENV WINEPREFIX /root/prefix32
+ENV WINEARCH win32
+ENV DISPLAY :0
+
+WORKDIR /root/
+RUN wget -O - https://github.com/novnc/noVNC/archive/v1.1.0.tar.gz | tar -xzv -C /root/ && mv /root/noVNC-1.1.0 /root/novnc && ln -s /root/novnc/vnc_lite.html /root/novnc/index.html
+RUN wget -O - https://github.com/novnc/websockify/archive/v0.8.0.tar.gz | tar -xzv -C /root/ && mv /root/websockify-0.8.0 /root/novnc/utils/websockify
+
+EXPOSE 8080
 # Configure user nobody to match unRAID's settings
  RUN \
  usermod -u 99 nobody && \
@@ -15,20 +34,9 @@ ENV LANGUAGE en_US.UTF-8
  usermod -d /config nobody && \
  chown -R nobody:users /home
 
-RUN apt-get update &&  apt-get -y install xvfb x11vnc xdotool wget supervisor cabextract websockify net-tools
-
-ENV WINEPREFIX /root/prefix32
-ENV WINEARCH win32
-ENV DISPLAY :0
-
-# Install wine
-RUN \
- dpkg --add-architecture i386 && \
- wget -nc https://dl.winehq.org/wine-builds/Release.key && \
- apt-key add Release.key && \
- apt-add-repository https://dl.winehq.org/wine-builds/ubuntu/ && \
- apt-get update && \
- apt-get -y install --allow-unauthenticated --install-recommends winehq-devel wine-mono wine-gecko
+ADD supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+ADD blueiris.sh /root/blueiris.sh
+RUN chmod +x /root/blueiris.sh
 
 RUN \
  cd /usr/bin/ && \
@@ -36,15 +44,8 @@ RUN \
  chmod +x winetricks && \
  sh winetricks corefonts wininet
 
-ADD supervisord.conf /etc/supervisor/conf.d/supervisord.conf
-ADD blueiris.sh /root/blueiris.sh
-RUN chmod +x /root/blueiris.sh
-
 RUN mv /root/prefix32 /root/prefix32_original && \
     mkdir /root/prefix32
-
-WORKDIR /root/
-ADD novnc /root/novnc/
 
 # Expose Port
 EXPOSE 8080
