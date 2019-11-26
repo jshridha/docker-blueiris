@@ -21,5 +21,12 @@ docker run -d \
   -v /path/to/data:/root/prefix32:rw \
   jshridha/blueiris
   ```
+
+## Advanced Options
+
+BlueIris version 5 is supported by default. If you'd like to run BlueIris 4, set the environmental variable:
+```BLUEIRIS_VERISION=4```
+
+
 # Known Issues:
 * Saving and restoring settings backup via the BlueIris interface does not work!
