@@ -1,6 +1,6 @@
 #!/bin/bash
 
-BLUEIRIS_EXE="/root/prefix32/drive_c/Program Files/Blue Iris 4/BlueIris.exe"
+BLUEIRIS_EXE="/root/prefix32/drive_c/Program Files/Blue Iris 5/BlueIris.exe"
 PREFIX_DIR="/root/prefix32"
 INSTALL_EXE="/root/blueiris.exe"
 
