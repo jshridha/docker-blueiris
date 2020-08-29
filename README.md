@@ -34,4 +34,4 @@ BlueIris version 5 is supported by default. If you'd like to run BlueIris 4, set
 
 # Known Issues:
 * Saving and restoring settings backup via the BlueIris interface does not work!
-* Another issue is that the UI3 interface (served on port 80) does not get extracted.  You can grab the UI3 files from a Windows installation and copy them to the container manually.
+* Another issue is that the UI3 interface (served on port 81 by default) does not get extracted by the installer.  unzip package is added to image to extract the ui3.zip file after installation.
