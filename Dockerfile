@@ -11,7 +11,7 @@ ENV DISPLAY :0
 ENV BLUEIRIS_VERSION=5
 
 RUN apt-get update && \ 
-    apt-get install -y wget gnupg software-properties-common winbind python cifs-utils
+    apt-get install -y wget gnupg software-properties-common winbind python cifs-utils unzip
 
 RUN dpkg --add-architecture i386 && \
     wget -nc https://dl.winehq.org/wine-builds/winehq.key && \

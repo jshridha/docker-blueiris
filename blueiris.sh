@@ -1,6 +1,7 @@
 #!/bin/bash
 
 BLUEIRIS_EXE="/root/prefix32/drive_c/Program Files/Blue Iris ${BLUEIRIS_VERSION}/BlueIris.exe"
+BLUEIRIS_INSTALL_PATH="/root/prefix32/drive_c/Program Files/Blue Iris ${BLUEIRIS_VERSION}"
 PREFIX_DIR="/root/prefix32"
 INSTALL_EXE="/root/blueiris.exe"
 
@@ -20,6 +21,9 @@ if [ ! -e "$BLUEIRIS_EXE" ] ; then
     fi
     wine blueiris.exe
     rm blueiris.exe
+    if [ "$BLUEIRIS_VERSION" == "5" ]; then
+       unzip "${BLUEIRIS_INSTALL_PATH}/ui3.zip" -d "${BLUEIRIS_INSTALL_PATH}/www/"
+    fi
 fi
 
 wine "$BLUEIRIS_EXE"
