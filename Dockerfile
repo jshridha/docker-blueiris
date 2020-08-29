@@ -1,4 +1,3 @@
- 
 FROM ubuntu:focal
 
 ENV HOME /root
@@ -12,14 +11,14 @@ ENV DISPLAY :0
 ENV BLUEIRIS_VERSION=5
 
 RUN apt-get update && \ 
-    apt-get install -y wget gnupg software-properties-common winbind
+    apt-get install -y wget gnupg software-properties-common winbind python cifs-utils
 
 RUN dpkg --add-architecture i386 && \
     wget -nc https://dl.winehq.org/wine-builds/winehq.key && \
     apt-key add winehq.key && \
     apt-add-repository https://dl.winehq.org/wine-builds/ubuntu/
     
-RUN apt-get update && apt-get -y install xvfb x11vnc xdotool wget tar supervisor winehq-stable net-tools fluxbox cabextract cifs-utils python
+RUN apt-get update && apt-get -y install xvfb x11vnc xdotool wget tar supervisor winehq-stable net-tools fluxbox cabextract
 ADD supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
 WORKDIR /root/
