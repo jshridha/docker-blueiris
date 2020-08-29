@@ -1,5 +1,5 @@
  
-FROM ubuntu:bionic
+FROM ubuntu:focal
 
 ENV HOME /root
 ENV DEBIAN_FRONTEND noninteractive
@@ -19,12 +19,12 @@ RUN dpkg --add-architecture i386 && \
     apt-key add winehq.key && \
     apt-add-repository https://dl.winehq.org/wine-builds/ubuntu/
     
-RUN apt-get update && apt-get -y install xvfb x11vnc xdotool wget tar supervisor winehq-stable net-tools fluxbox cabextract
+RUN apt-get update && apt-get -y install xvfb x11vnc xdotool wget tar supervisor winehq-stable net-tools fluxbox cabextract cifs-utils python
 ADD supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
 WORKDIR /root/
-RUN wget -O - https://github.com/novnc/noVNC/archive/v1.1.0.tar.gz | tar -xzv -C /root/ && mv /root/noVNC-1.1.0 /root/novnc && ln -s /root/novnc/vnc_lite.html /root/novnc/index.html
-RUN wget -O - https://github.com/novnc/websockify/archive/v0.8.0.tar.gz | tar -xzv -C /root/ && mv /root/websockify-0.8.0 /root/novnc/utils/websockify
+RUN wget -O - https://github.com/novnc/noVNC/archive/v1.2.0.tar.gz | tar -xzv -C /root/ && mv /root/noVNC-1.2.0 /root/novnc && ln -s /root/novnc/vnc_lite.html /root/novnc/index.html
+RUN wget -O - https://github.com/novnc/websockify/archive/v0.9.0.tar.gz | tar -xzv -C /root/ && mv /root/websockify-0.9.0 /root/novnc/utils/websockify
 
 EXPOSE 8080
 # Configure user nobody to match unRAID's settings
