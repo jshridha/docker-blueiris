@@ -32,6 +32,8 @@ docker run -d \
 BlueIris version 5 is supported by default. If you'd like to run BlueIris 4, set the environmental variable:
 ```BLUEIRIS_VERISION=4```
 
+The default resolution is 1024x768x24. If you need to change the resolution set the environmental variable:
+`RESOLUTION=1920x1080x24` or `RESOLUTION=1440x768x24` etc
 
 # Known Issues:
 * Saving and restoring settings backup via the BlueIris interface does not work!
