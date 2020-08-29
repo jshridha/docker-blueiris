@@ -15,11 +15,12 @@ This container runs:
 
 ```
 docker run -d \
-  --name="BlueIris" \
+  --name="blueiris" \
   -p 8080:8080 \
   -p 5900:5900 \
   -p 81:81 \
   -v /path/to/data:/root/prefix32:rw \
+  --log-opt max-size=5m --log-opt max-file=2 \
   leonowski/docker-blueiris
   ```
 
