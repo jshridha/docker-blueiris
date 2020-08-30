@@ -15,10 +15,11 @@ This container runs:
 ```
 docker run -d \
   --name="blueiris" \
+  --privileged \
   -p 8080:8080 \
   -p 5900:5900 \
   -p 81:81 \
-  -v /path/to/data:/root/prefix32:rw \
+  -v /path/to/data:/root/prefix:rw \
   --log-opt max-size=5m --log-opt max-file=2 \
   jshridha/blueiris
   ```
@@ -26,6 +27,8 @@ docker run -d \
 * The "/path/to/data" can be a docker volume or a local path.  It's probably best to use a local path on your host so you can drop things in it if you need to.  Also included is cifs-utils so you can mount cifs from inside the container (note:  You will have to run the container privileged to be able to mount cifs)
 
 * Example docker run also has log output size limited.  This will help the container storage layer from getting out of control.
+
+* **NOTE:** The container must be run in privileged mode for the first run to allow installation of the Visual C++ components. The privileged flag can be removed after the first run.
 
 ## Advanced Options
 
