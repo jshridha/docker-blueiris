@@ -8,6 +8,7 @@ ENV LANGUAGE en_US.UTF-8
 ENV WINEPREFIX /root/prefix
 ENV DISPLAY :0
 ENV BLUEIRIS_VERSION=5
+ENV RESOLUTION=1024x768x24
 
 RUN apt-get update && \ 
     apt-get install -y wget gnupg software-properties-common winbind python cifs-utils unzip
