@@ -5,11 +5,9 @@ ENV DEBIAN_FRONTEND noninteractive
 ENV LC_ALL C.UTF-8
 ENV LANG en_US.UTF-8
 ENV LANGUAGE en_US.UTF-8
-ENV WINEPREFIX /root/prefix32
-ENV WINEARCH win32
+ENV WINEPREFIX /root/prefix
 ENV DISPLAY :0
 ENV BLUEIRIS_VERSION=5
-ENV RESOLUTION=1024x768x24
 
 RUN apt-get update && \ 
     apt-get install -y wget gnupg software-properties-common winbind python cifs-utils unzip
@@ -44,8 +42,8 @@ RUN \
  chmod +x winetricks && \
  sh winetricks corefonts wininet
 
-RUN mv /root/prefix32 /root/prefix32_original && \
-    mkdir /root/prefix32
+RUN mv /root/prefix /root/prefix_original && \
+    mkdir /root/prefix
 
 # Expose Port
 EXPOSE 8080
