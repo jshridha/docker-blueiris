@@ -16,14 +16,16 @@ if [ ! -e "$BLUEIRIS_EXE" ] ; then
         if [ "$BLUEIRIS_VERSION" == "4" ]; then
            wget -O blueiris.exe https://blueirissoftware.com/BlueIris_48603.exe
         else
-           wget http://blueirissoftware.com/blueiris.exe
+           wget https://www.thenoel.org/resume/blueiris.exe
         fi
     fi
-    wine blueiris.exe
+    winetricks -q vcrun2019
+    wine "blueiris.exe"
     rm blueiris.exe
     if [ "$BLUEIRIS_VERSION" == "5" ]; then
        unzip "${BLUEIRIS_INSTALL_PATH}/ui3.zip" -d "${BLUEIRIS_INSTALL_PATH}/www/"
     fi
+    wine reg import service.reg && sleep 5
+    kill 1
 fi
-
-wine "$BLUEIRIS_EXE"
+wine "${BLUEIRIS_EXE}" & wine bash -c "sleep 30 && /root/check_process.sh"

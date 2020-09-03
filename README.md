@@ -16,6 +16,9 @@ This container runs:
 docker run -d \
   --name="blueiris" \
   --privileged \
+  --init \
+  --restart=always \
+  --TZ=America/Los_Angeles
   -p 8080:8080 \
   -p 5900:5900 \
   -p 81:81 \
@@ -28,7 +31,11 @@ docker run -d \
 
 * Example docker run also has log output size limited.  This will help the container storage layer from getting out of control.
 
-* **NOTE:** The container must be run in privileged mode for the first run to allow installation of the Visual C++ components. The privileged flag can be removed after the first run.
+* **NOTES:**
+
+* The container must be run in privileged mode for the first run to allow installation of the Visual C++ components. The privileged flag can be removed after the first run.
+* TZ must be specified in order to get correct time overlays in BlueIris.
+* --init option is required as a separate script now runs inside to check if BlueIris.exe is running and kills PID 1 to stop the container.
 
 ## Advanced Options
 
