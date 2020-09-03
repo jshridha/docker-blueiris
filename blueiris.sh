@@ -16,7 +16,7 @@ if [ ! -e "$BLUEIRIS_EXE" ] ; then
         if [ "$BLUEIRIS_VERSION" == "4" ]; then
            wget -O blueiris.exe https://blueirissoftware.com/BlueIris_48603.exe
         else
-           wget https://www.thenoel.org/resume/blueiris.exe
+           wget https://blueirissoftware.com/blueiris.exe
         fi
     fi
     winetricks -q vcrun2019
