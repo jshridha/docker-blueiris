@@ -19,7 +19,7 @@ if [ ! -e "$BLUEIRIS_EXE" ] ; then
            wget https://blueirissoftware.com/blueiris.exe
         fi
     fi
-    winetricks -q vcrun2019
+    winetricks -q vcrun2019 mfc42
     wine "blueiris.exe"
     rm blueiris.exe
     if [ "$BLUEIRIS_VERSION" == "5" ]; then
@@ -28,4 +28,6 @@ if [ ! -e "$BLUEIRIS_EXE" ] ; then
     wine reg import service.reg && sleep 5
     kill 1
 fi
+wine reg import service.reg
+wine taskmgr & wine net start blueiris
 wine "${BLUEIRIS_EXE}" & wine bash -c "sleep 30 && /root/check_process.sh"
