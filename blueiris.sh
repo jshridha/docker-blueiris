@@ -28,6 +28,5 @@ if [ ! -e "$BLUEIRIS_EXE" ] ; then
     wine reg import service.reg && sleep 5
     kill 1
 fi
-wine reg import service.reg
-wine taskmgr & wine net start blueiris
-wine "${BLUEIRIS_EXE}" & wine bash -c "sleep 30 && /root/check_process.sh"
+wine reg import service.reg && sleep 5 && wine net start blueiris && sleep 5
+wine "${BLUEIRIS_EXE}"
