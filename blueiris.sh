@@ -28,5 +28,5 @@ if [ ! -e "$BLUEIRIS_EXE" ] ; then
     wine reg import service.reg && sleep 5
     kill 1
 fi
-wine reg import service.reg && sleep 5 && wine net start blueiris && sleep 5
+sleep 5 && wine reg import service.reg && sleep 5 && wine net start blueiris && sleep 5
 wine "${BLUEIRIS_EXE}"
