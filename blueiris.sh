@@ -28,5 +28,6 @@ if [ ! -e "$BLUEIRIS_EXE" ] ; then
     wine reg import service.reg && sleep 5
     kill 1
 fi
-sleep 5 && wine reg import service.reg && sleep 5 && wine net start blueiris && sleep 5
+unzip -o "${BLUEIRIS_INSTALL_PATH}/ui3.zip" -d "${BLUEIRIS_INSTALL_PATH}/www/"
+wine reg import service.reg && sleep 2 && wine net start blueiris && sleep 2
 wine "${BLUEIRIS_EXE}"
