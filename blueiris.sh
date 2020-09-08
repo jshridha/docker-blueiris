@@ -23,7 +23,7 @@ if [ ! -e "$BLUEIRIS_EXE" ] ; then
     wine "blueiris.exe"
     rm blueiris.exe
     if [ "$BLUEIRIS_VERSION" == "5" ]; then
-       unzip "${BLUEIRIS_INSTALL_PATH}/ui3.zip" -d "${BLUEIRIS_INSTALL_PATH}/www/"
+       unzip -o "${BLUEIRIS_INSTALL_PATH}/ui3.zip" -d "${BLUEIRIS_INSTALL_PATH}/www/"
     fi
     wine reg import service.reg && sleep 5
     kill 1
