@@ -17,10 +17,12 @@ ADD check_process.sh /root/check_process.sh
 ADD service.sh /root/service.sh
 ADD supervisord-normal.conf /etc/supervisor/conf.d/supervisord-normal.conf
 ADD supervisord-service.conf /etc/supervisor/conf.d/supervisord-service.conf
+ADD menu /root/menu
+ADD get_latest_ui3.sh /root/get_latest_ui3.sh
 
 WORKDIR /root/
 RUN apt-get update && \
-    apt-get install -y wget gnupg software-properties-common winbind python cifs-utils unzip && \
+    apt-get install -y wget gnupg software-properties-common winbind python cifs-utils unzip jq curl && \
     dpkg --add-architecture i386 && \
     wget -nc https://dl.winehq.org/wine-builds/winehq.key && \
     apt-key add winehq.key && \
@@ -38,9 +40,11 @@ RUN apt-get update && \
     chmod +x winetricks && \
     sh winetricks win10 && \
     sh winetricks -q corefonts wininet && \
-    chmod +x /root/blueiris.sh /root/launch_blueiris.sh /root/check_process.sh /root/service.sh && \
+    chmod +x /root/blueiris.sh /root/launch_blueiris.sh /root/check_process.sh /root/service.sh /root/get_latest_ui3.sh && \
     mv /root/prefix /root/prefix_original && \
     mkdir /root/prefix && \
+    mkdir -p /root/.fluxbox && \
+    ln -s /root/menu /root/.fluxbox/menu && \
     rm -rf /var/lib/apt/lists/*
 
 # Expose Port
