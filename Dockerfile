@@ -45,6 +45,11 @@ RUN apt-get update && \
     mkdir /root/prefix && \
     mkdir -p /root/.fluxbox && \
     ln -s /root/menu /root/.fluxbox/menu && \
+    wget http://dl.winehq.org/wine/wine-gecko/2.47.1/wine-gecko-2.47.1-x86_64.msi && \
+    wget http://dl.winehq.org/wine/wine-gecko/2.47.1/wine-gecko-2.47.1-x86.msi && \
+    wget https://dl.winehq.org/wine/wine-mono/5.1.0/wine-mono-5.1.0-x86.msi && \
+    mkdir -p /root/.cache/wine && \
+    mv *x86.msi /root/.cache/wine && \
     rm -rf /var/lib/apt/lists/*
 
 # Expose Port
