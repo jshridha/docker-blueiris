@@ -19,6 +19,9 @@ ADD supervisord-normal.conf /etc/supervisor/conf.d/supervisord-normal.conf
 ADD supervisord-service.conf /etc/supervisor/conf.d/supervisord-service.conf
 ADD menu /root/menu
 ADD get_latest_ui3.sh /root/get_latest_ui3.sh
+ADD http://dl.winehq.org/wine/wine-gecko/2.47.1/wine-gecko-2.47.1-x86_64.msi /root/
+ADD http://dl.winehq.org/wine/wine-gecko/2.47.1/wine-gecko-2.47.1-x86.msi /root/
+ADD https://dl.winehq.org/wine/wine-mono/5.1.0/wine-mono-5.1.0-x86.msi /root/
 
 WORKDIR /root/
 RUN apt-get update && \
@@ -42,7 +45,8 @@ RUN apt-get update && \
     sh winetricks -q corefonts wininet && \
     chmod +x /root/blueiris.sh /root/launch_blueiris.sh /root/check_process.sh /root/service.sh /root/get_latest_ui3.sh && \
     mv /root/prefix /root/prefix_original && \
-    mkdir /root/prefix && \
+    mkdir -p /root/prefix /usr/share/wine/mono /usr/share/wine/gecko && \
+    mv /root/*gecko*.msi /usr/share/wine/gecko/ && mv /root/*mono*.msi /usr/share/wine/mono/ && \
     mkdir -p /root/.fluxbox && \
     ln -s /root/menu /root/.fluxbox/menu && \
     wget http://dl.winehq.org/wine/wine-gecko/2.47.1/wine-gecko-2.47.1-x86_64.msi && \

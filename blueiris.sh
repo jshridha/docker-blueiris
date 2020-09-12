@@ -6,7 +6,7 @@ PREFIX_DIR="/root/prefix"
 INSTALL_EXE="/root/blueiris.exe"
 
 if [ ! -d "$PREFIX_DIR/drive_c" ]; then
-    mv /root/prefix_original/* /root/prefix
+    cp -R /root/prefix_original/* /root/prefix/
 fi
 
 chown -R root:root /root/prefix
