@@ -2,10 +2,10 @@
 
    [submenu] (Applications) {}
       [submenu] (Blue Iris) {}
-         [exec] (Blue Iris) { wine "/root/prefix/drive_c/Program Files/Blue Iris 5/BlueIris.exe"} <>
+         [exec] (Blue Iris) { wine "/home/wineuser/prefix/drive_c/Program Files/Blue Iris 5/BlueIris.exe"} <>
          [exec] (Start Blue Iris service) { wine net start blueiris} <>
          [exec] (Stop Blue Iris service) { wine net stop blueiris} <>
-         [exec] (Install latest UI3) { xterm -hold -e /root/get_latest_ui3.sh}
+         [exec] (Install latest UI3) { xterm -hold -e /home/wineuser/get_latest_ui3.sh}
          [exec] (Restart Container) { kill 1} <>
       [end]
       [submenu] (Shells) {}

@@ -25,13 +25,13 @@ ADD https://dl.winehq.org/wine/wine-mono/5.1.0/wine-mono-5.1.0-x86.msi /root/
 
 WORKDIR /root/
 RUN apt-get update && \
-    apt-get install -y wget gnupg software-properties-common winbind python cifs-utils unzip jq curl && \
+    apt-get install -y wget gnupg software-properties-common winbind python python-numpy unzip jq curl && \
     dpkg --add-architecture i386 && \
     wget -nc https://dl.winehq.org/wine-builds/winehq.key && \
     apt-key add winehq.key && \
     apt-add-repository https://dl.winehq.org/wine-builds/ubuntu/ && \
     apt-get update && apt-get -y install xvfb x11vnc xdotool wget tar supervisor winehq-devel net-tools fluxbox cabextract && \
-    wget -O - https://github.com/novnc/noVNC/archive/v1.2.0.tar.gz | tar -xzv -C /root/ && mv /root/noVNC-1.2.0 /root/novnc && ln -s /root/novnc/vnc_lite.html /root/novnc/index.html && \
+    wget -O - https://github.com/novnc/noVNC/archive/v1.2.0.tar.gz | tar -xzv -C /root/ && mv /root/noVNC-1.2.0 /root/novnc && \
     wget -O - https://github.com/novnc/websockify/archive/v0.9.0.tar.gz | tar -xzv -C /root/ && mv /root/websockify-0.9.0 /root/novnc/utils/websockify && \
     # Configure user nobody to match unRAID's settings && \
     usermod -u 99 nobody && \
@@ -41,15 +41,28 @@ RUN apt-get update && \
     cd /usr/bin/ && \
     wget  https://raw.githubusercontent.com/Winetricks/winetricks/master/src/winetricks && \
     chmod +x winetricks && \
-    sh winetricks win10 && \
-    sh winetricks -q corefonts wininet && \
+    winetricks win10 && \
+    winetricks -q corefonts wininet && \
     chmod +x /root/blueiris.sh /root/launch_blueiris.sh /root/check_process.sh /root/service.sh /root/get_latest_ui3.sh && \
-    mv /root/prefix /root/prefix_original && \
-    mkdir -p /root/prefix /usr/share/wine/mono /usr/share/wine/gecko && \
+    mkdir -p /usr/share/wine/mono /usr/share/wine/gecko && \
     mv /root/*gecko*.msi /usr/share/wine/gecko/ && mv /root/*mono*.msi /usr/share/wine/mono/ && \
     mkdir -p /root/.fluxbox && \
-    ln -s /root/menu /root/.fluxbox/menu && \
-    rm -rf /var/lib/apt/lists/*
+    rm -rf /var/lib/apt/lists/* && \
+    groupadd wineuser && \
+    useradd -m -g wineuser wineuser && \
+    mv /root/* /root/.* /home/wineuser/ || true && \
+    chown -R wineuser:wineuser /home/wineuser && \
+    ln -s /home/wineuser/menu /home/wineuser/.fluxbox/menu && \
+    ln -s /home/wineuser/novnc/vnc_lite.html /home/wineuser/novnc/index.html && \
+    mv /home/wineuser/prefix /home/wineuser/prefix_original && \
+    mkdir /home/wineuser/prefix && \
+    chown wineuser:wineuser /home/wineuser/prefix
+
+USER wineuser
+ENV HOME /home/wineuser
+ENV WINEPREFIX /home/wineuser/prefix
+WORKDIR /home/wineuser
+
 
 # Expose Port
 EXPOSE 8080

@@ -1,15 +1,15 @@
 #!/bin/bash
 
-BLUEIRIS_EXE="/root/prefix/drive_c/Program Files/Blue Iris ${BLUEIRIS_VERSION}/BlueIris.exe"
-BLUEIRIS_INSTALL_PATH="/root/prefix/drive_c/Program Files/Blue Iris ${BLUEIRIS_VERSION}"
-PREFIX_DIR="/root/prefix"
-INSTALL_EXE="/root/blueiris.exe"
+BLUEIRIS_EXE="/home/wineuser/prefix/drive_c/Program Files/Blue Iris ${BLUEIRIS_VERSION}/BlueIris.exe"
+BLUEIRIS_INSTALL_PATH="/home/wineuser/prefix/drive_c/Program Files/Blue Iris ${BLUEIRIS_VERSION}"
+PREFIX_DIR="/home/wineuser/prefix"
+INSTALL_EXE="/home/wineuser/blueiris.exe"
 
 if [ ! -d "$PREFIX_DIR/drive_c" ]; then
-    cp -R /root/prefix_original/* /root/prefix/
+  mv /home/wineuser/prefix_original/* /home/wineuser/prefix
 fi
 
-chown -R root:root /root/prefix
+chown -R wineuser:wineuser /home/wineuser/prefix
 
 if [ ! -e "$BLUEIRIS_EXE" ] ; then
     if [ ! -e "$INSTALL_EXE" ] ; then
@@ -28,6 +28,5 @@ if [ ! -e "$BLUEIRIS_EXE" ] ; then
     wine reg import service.reg && sleep 5
     kill 1
 fi
-unzip -o "${BLUEIRIS_INSTALL_PATH}/ui3.zip" -d "${BLUEIRIS_INSTALL_PATH}/www/"
-wine reg import service.reg && sleep 2 && wine net start blueiris && sleep 2
+wine reg import service.reg && sleep 5 && wine net start blueiris && sleep 5
 wine "${BLUEIRIS_EXE}"
