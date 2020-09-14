@@ -6,10 +6,12 @@ PREFIX_DIR="/home/wineuser/prefix"
 INSTALL_EXE="/home/wineuser/blueiris.exe"
 
 if [ ! -d "$PREFIX_DIR/drive_c" ]; then
-  mv /home/wineuser/prefix_original/* /home/wineuser/prefix
+  chown -R wineuser:wineuser /home/wineuser
+  winetricks -q annihilate || true
+  winetricks win10
+  winetricks -q corefonts wininet vcrun2019 mfc42
 fi
 
-chown -R wineuser:wineuser /home/wineuser/prefix
 
 if [ ! -e "$BLUEIRIS_EXE" ] ; then
     if [ ! -e "$INSTALL_EXE" ] ; then
@@ -19,7 +21,6 @@ if [ ! -e "$BLUEIRIS_EXE" ] ; then
            wget https://blueirissoftware.com/blueiris.exe
         fi
     fi
-    winetricks -q vcrun2019 mfc42
     wine "blueiris.exe"
     rm blueiris.exe
     if [ "$BLUEIRIS_VERSION" == "5" ]; then

@@ -5,7 +5,7 @@ ENV DEBIAN_FRONTEND noninteractive
 ENV LC_ALL C.UTF-8
 ENV LANG en_US.UTF-8
 ENV LANGUAGE en_US.UTF-8
-ENV WINEPREFIX /root/prefix
+ENV WINEPREFIX /home/wineuser/prefix
 ENV DISPLAY :0
 ENV BLUEIRIS_VERSION=5
 ENV RESOLUTION=1024x768x24
@@ -41,8 +41,6 @@ RUN apt-get update && \
     cd /usr/bin/ && \
     wget  https://raw.githubusercontent.com/Winetricks/winetricks/master/src/winetricks && \
     chmod +x winetricks && \
-    winetricks win10 && \
-    winetricks -q corefonts wininet && \
     chmod +x /root/blueiris.sh /root/launch_blueiris.sh /root/check_process.sh /root/service.sh /root/get_latest_ui3.sh && \
     mkdir -p /usr/share/wine/mono /usr/share/wine/gecko && \
     mv /root/*gecko*.msi /usr/share/wine/gecko/ && mv /root/*mono*.msi /usr/share/wine/mono/ && \
@@ -51,16 +49,12 @@ RUN apt-get update && \
     groupadd wineuser && \
     useradd -m -g wineuser wineuser && \
     mv /root/* /root/.* /home/wineuser/ || true && \
-    chown -R wineuser:wineuser /home/wineuser && \
     ln -s /home/wineuser/menu /home/wineuser/.fluxbox/menu && \
     ln -s /home/wineuser/novnc/vnc_lite.html /home/wineuser/novnc/index.html && \
-    mv /home/wineuser/prefix /home/wineuser/prefix_original && \
-    mkdir /home/wineuser/prefix && \
-    chown wineuser:wineuser /home/wineuser/prefix
+    chown -R wineuser:wineuser /home/wineuser
 
 USER wineuser
 ENV HOME /home/wineuser
-ENV WINEPREFIX /home/wineuser/prefix
 WORKDIR /home/wineuser
 
 

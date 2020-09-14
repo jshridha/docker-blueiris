@@ -15,6 +15,7 @@ This container runs:
 ```
 docker run -d \
   --name="blueiris" \
+  --privileged \
   --init \
   --restart=always \
   --TZ=America/Los_Angeles
@@ -27,6 +28,7 @@ docker run -d \
   ```
 * **NOTES:**
 
+* The container must be run in privileged mode for the first run to allow installation of the Visual C++ components. The privileged flag can be removed after the first run.
 * TZ must be specified in order to get correct time in the Windows environment.
 * --init option is required as a separate script now runs inside to check if BlueIris.exe is running and kills PID 1 to stop the container.
 * The `/path/to/data` can be a docker named volume or a local path.  Set permissions for local path to 777 with `chmod 777 /path/to/data`.  It's probably best to use a local path on your host so you can drop things in it if you need to.  `/home/wineuser/prefix` in the container is the wine prefix environment.  This is the persistent data.  It can be used in normal mode and in service mode.
