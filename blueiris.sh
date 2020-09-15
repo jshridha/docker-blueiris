@@ -6,8 +6,6 @@ PREFIX_DIR="/home/wineuser/prefix"
 INSTALL_EXE="/home/wineuser/blueiris.exe"
 
 if [ ! -d "$PREFIX_DIR/drive_c" ]; then
-  chown -R wineuser:wineuser /home/wineuser
-  winetricks -q annihilate || true
   winetricks win10
   winetricks -q corefonts wininet vcrun2019 mfc42
 fi

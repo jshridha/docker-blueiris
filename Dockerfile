@@ -5,7 +5,6 @@ ENV DEBIAN_FRONTEND noninteractive
 ENV LC_ALL C.UTF-8
 ENV LANG en_US.UTF-8
 ENV LANGUAGE en_US.UTF-8
-ENV WINEPREFIX /home/wineuser/prefix
 ENV DISPLAY :0
 ENV BLUEIRIS_VERSION=5
 ENV RESOLUTION=1024x768x24
@@ -30,7 +29,8 @@ RUN apt-get update && \
     wget -nc https://dl.winehq.org/wine-builds/winehq.key && \
     apt-key add winehq.key && \
     apt-add-repository https://dl.winehq.org/wine-builds/ubuntu/ && \
-    apt-get update && apt-get -y install xvfb x11vnc xdotool wget tar supervisor winehq-devel net-tools fluxbox cabextract && \
+    apt-get update && apt-get -y --install-recommends install xvfb x11vnc xdotool wget tar supervisor winehq-devel net-tools fluxbox cabextract && \
+    apt-get -y upgrade && \
     wget -O - https://github.com/novnc/noVNC/archive/v1.2.0.tar.gz | tar -xzv -C /root/ && mv /root/noVNC-1.2.0 /root/novnc && \
     wget -O - https://github.com/novnc/websockify/archive/v0.9.0.tar.gz | tar -xzv -C /root/ && mv /root/websockify-0.9.0 /root/novnc/utils/websockify && \
     # Configure user nobody to match unRAID's settings && \
@@ -51,11 +51,16 @@ RUN apt-get update && \
     mv /root/* /root/.* /home/wineuser/ || true && \
     ln -s /home/wineuser/menu /home/wineuser/.fluxbox/menu && \
     ln -s /home/wineuser/novnc/vnc_lite.html /home/wineuser/novnc/index.html && \
+    mkdir -p /home/wineuser/prefix && \
     chown -R wineuser:wineuser /home/wineuser
+
 
 USER wineuser
 ENV HOME /home/wineuser
 WORKDIR /home/wineuser
+ENV WINEPREFIX /home/wineuser/prefix
+VOLUME /home/wineuser/prefix
+
 
 
 # Expose Port
