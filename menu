@@ -1,0 +1,40 @@
+[begin] (Fluxbox)
+
+   [submenu] (Applications) {}
+      [submenu] (Blue Iris) {}
+         [exec] (Blue Iris) { wine "/home/wineuser/prefix/drive_c/Program Files/Blue Iris 5/BlueIris.exe"} <>
+         [exec] (Start Blue Iris service) { wine net start blueiris} <>
+         [exec] (Stop Blue Iris service) { wine net stop blueiris} <>
+         [exec] (Install latest UI3) { xterm -hold -e /home/wineuser/get_latest_ui3.sh}
+         [exec] (Restart Container) { kill 1} <>
+      [end]
+      [submenu] (Shells) {}
+         [exec] (Bash) { x-terminal-emulator -T "Bash" -e /bin/bash --login} <>
+         [exec] (Dash) { x-terminal-emulator -T "Dash" -e /bin/dash -i} <>
+         [exec] (Sh) { x-terminal-emulator -T "Sh" -e /bin/sh --login} <>
+      [end]
+      [submenu] (System) {}
+         [submenu] (Administration) {}
+            [exec] (Editres) {editres} <>
+            [exec] (Xfontsel) {xfontsel} <>
+            [exec] (Xkill) {xkill} <>
+         [end]
+         [submenu] (Monitoring) {}
+            [exec] (Top) { x-terminal-emulator -T "Top" -e /usr/bin/top} <>
+            [exec] (Xev) {x-terminal-emulator -e xev} <>
+         [end]
+      [end]
+   [end]
+   [submenu] (Window Managers) {}
+      [restart] (FluxBox)  {/usr/bin/startfluxbox}
+   [end]
+
+   [config] (Configuration)
+   [submenu] (Styles) {}
+      [stylesdir] (/usr/share/fluxbox/styles)
+      [stylesdir] (~/.fluxbox/styles)
+   [end]
+   [workspaces] (Workspaces)
+   [reconfig] (Reconfigure)
+   [restart] (Restart)
+   [exit] (Exit)

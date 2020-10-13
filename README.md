@@ -16,19 +16,26 @@ This container runs:
 docker run -d \
   --name="blueiris" \
   --privileged \
+  --init \
+  --restart=always \
+  --TZ=America/Los_Angeles
   -p 8080:8080 \
   -p 5900:5900 \
   -p 81:81 \
-  -v /path/to/data:/root/prefix:rw \
+  -v /path/to/data:/home/wineuser/prefix:rw \
   --log-opt max-size=5m --log-opt max-file=2 \
   jshridha/blueiris
   ```
+* **NOTES:**
 
-* The "/path/to/data" can be a docker volume or a local path.  It's probably best to use a local path on your host so you can drop things in it if you need to.  Also included is cifs-utils so you can mount cifs from inside the container (note:  You will have to run the container privileged to be able to mount cifs)
-
+* The container must be run in privileged mode for the first run to allow installation of the Visual C++ components. The privileged flag can be removed after the first run.
+* TZ must be specified in order to get correct time in the Windows environment.
+* --init option is required as a separate script now runs inside to check if BlueIris.exe is running and kills PID 1 to stop the container.
+* The `/path/to/data` can be a docker named volume or a local path.  Set permissions for local path to 777 with `chmod 777 /path/to/data`.  It's probably best to use a local path on your host so you can drop things in it if you need to.  `/home/wineuser/prefix` in the container is the wine prefix environment.  This is the persistent data.  It can be used in normal mode and in service mode.
+* The container runs as user `wineuser` with uid `1000`.  
+* Service mode allows you to run blueiris as a service only.  This will disable all the GUI related processes from running.  To run in service mode, you first have to run in normal mode, allow an install to happen, and configure your blue iris server the way you need it to be.  After you're done and no longer need to make changes, destroy the conatiner and re-launch it with the command `-c /etc/supervisor/conf.d/supervisord-service.conf`
+* Blue Iris alerts allow you to run various things including shell commands.  Wine allows you to run scripts in the Linux environment and this container has been set up to allow you to do that.  See https://wiki.winehq.org/FAQ#How_do_I_launch_native_applications_from_a_Windows_application.3F
 * Example docker run also has log output size limited.  This will help the container storage layer from getting out of control.
-
-* **NOTE:** The container must be run in privileged mode for the first run to allow installation of the Visual C++ components. The privileged flag can be removed after the first run.
 
 ## Advanced Options
 
@@ -40,4 +47,3 @@ The default resolution is 1024x768x24. If you need to change the resolution set 
 
 # Known Issues:
 * Saving and restoring settings backup via the BlueIris interface does not work!
-* Another issue is that the UI3 interface (served on port 81 by default) does not get extracted by the installer.  unzip package is added to image to extract the ui3.zip file after installation.

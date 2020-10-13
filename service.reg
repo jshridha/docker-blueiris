@@ -1,0 +1,19 @@
+Windows Registry Editor Version 5.00
+
+[HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\BlueIris]
+"Type"=dword:00000010
+"Start"=dword:00000002
+"ErrorControl"=dword:00000001
+"ImagePath"="C:\\Program Files\\Blue Iris 5\\BlueIris.exe"
+"DisplayName"="Blue Iris Service"
+"ObjectName"=".\\root"
+"DelayedAutostart"=dword:00000000
+"Description"="Video security software"
+"FailureActions"=hex:00,00,00,00,00,00,00,00,00,00,00,00,03,00,00,00,14,00,00,\
+  00,00,00,00,00,60,ea,00,00,00,00,00,00,60,ea,00,00,00,00,00,00,60,ea,00,00
+
+[HKEY_CURRENT_USER\Software\Wine\Drivers]
+"Audio"=""
+
+[HKEY_LOCAL_MACHINE\System\CurrentControlSet\Control\Session Manager\Environment]
+"PATHEXT"=".COM;.EXE;.BAT;.CMD;.VBS;.VBE;.JS;.JSE;.WSF;.WSH;."
