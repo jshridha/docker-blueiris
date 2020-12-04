@@ -7,7 +7,6 @@ INSTALL_EXE=$HOME/blueiris.exe
 
 if [ ! -d "$PREFIX_DIR/drive_c" ]; then
   winetricks win10
-  winetricks -q corefonts wininet vcrun2019 mfc42
 fi
 
 
