@@ -21,6 +21,7 @@ ADD https://dl.winehq.org/wine/wine-mono/5.1.0/wine-mono-5.1.0-x86.msi $USRWINE/
 
 RUN apt-get update && \
     apt-get install -y wget gnupg software-properties-common winbind python python-numpy unzip jq curl && \
+    apt-get -y install libgl1-mesa-glx libgl1-mesa-dri mesa-utils && \
     dpkg --add-architecture i386 && \
     wget -nc https://dl.winehq.org/wine-builds/winehq.key && \
     apt-key add winehq.key && \
@@ -29,7 +30,8 @@ RUN apt-get update && \
     wget -O - https://github.com/novnc/noVNC/archive/v1.2.0.tar.gz | tar -xzv -C $HOME && mv $HOME/noVNC-1.2.0 $HOME/novnc && \
     wget -O - https://github.com/novnc/websockify/archive/v0.9.0.tar.gz | tar -xzv -C $HOME && mv $HOME/websockify-0.9.0 $HOME/novnc/utils/websockify && \
     wget https://raw.githubusercontent.com/Winetricks/winetricks/master/src/winetricks -O /usr/bin/winetricks && \
-    chmod +x /usr/bin/winetricks
+    chmod +x /usr/bin/winetricks && \
+    rm -rf /var/lib/apt/lists/*
 
 ADD blueiris.sh $HOME/blueiris.sh
 ADD service.reg $HOME/service.reg
@@ -43,7 +45,6 @@ ADD get_latest_ui3.sh $HOME/get_latest_ui3.sh
 
 RUN chmod +x $HOME/*.sh && \
     mkdir -p $HOME/.fluxbox && \
-    rm -rf /var/lib/apt/lists/* && \
     groupadd wineuser && \
     useradd -m -g wineuser wineuser && \
     ln -s $HOME/menu $HOME/.fluxbox/menu && \
