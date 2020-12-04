@@ -1,6 +1,10 @@
 FROM ubuntu:focal
 
-ENV HOME /root
+ENV HOME /home/wineuser
+ENV WINEPREFIX /home/wineuser/prefix
+WORKDIR /home/wineuser
+VOLUME /home/wineuser/prefix
+
 ENV DEBIAN_FRONTEND noninteractive
 ENV LC_ALL C.UTF-8
 ENV LANG en_US.UTF-8
@@ -8,21 +12,13 @@ ENV LANGUAGE en_US.UTF-8
 ENV DISPLAY :0
 ENV BLUEIRIS_VERSION=5
 ENV RESOLUTION=1024x768x24
+ENV USRWINE=/usr/share/wine
 
-ADD blueiris.sh /root/blueiris.sh
-ADD service.reg /root/service.reg
-ADD launch_blueiris.sh /root/launch_blueiris.sh
-ADD check_process.sh /root/check_process.sh
-ADD service.sh /root/service.sh
-ADD supervisord-normal.conf /etc/supervisor/conf.d/supervisord-normal.conf
-ADD supervisord-service.conf /etc/supervisor/conf.d/supervisord-service.conf
-ADD menu /root/menu
-ADD get_latest_ui3.sh /root/get_latest_ui3.sh
-ADD http://dl.winehq.org/wine/wine-gecko/2.47.1/wine-gecko-2.47.1-x86_64.msi /root/
-ADD http://dl.winehq.org/wine/wine-gecko/2.47.1/wine-gecko-2.47.1-x86.msi /root/
-ADD https://dl.winehq.org/wine/wine-mono/5.1.0/wine-mono-5.1.0-x86.msi /root/
+RUN mkdir -p /usr/share/wine/mono /usr/share/wine/gecko
+ADD http://dl.winehq.org/wine/wine-gecko/2.47.1/wine-gecko-2.47.1-x86_64.msi $USRWINE/gecko
+ADD http://dl.winehq.org/wine/wine-gecko/2.47.1/wine-gecko-2.47.1-x86.msi $USRWINE/gecko
+ADD https://dl.winehq.org/wine/wine-mono/5.1.0/wine-mono-5.1.0-x86.msi $USRWINE/mono
 
-WORKDIR /root/
 RUN apt-get update && \
     apt-get install -y wget gnupg software-properties-common winbind python python-numpy unzip jq curl && \
     dpkg --add-architecture i386 && \
@@ -31,36 +27,33 @@ RUN apt-get update && \
     apt-add-repository https://dl.winehq.org/wine-builds/ubuntu/ && \
     apt-get update && apt-get -y --install-recommends install xvfb x11vnc xdotool wget tar supervisor winehq-devel net-tools fluxbox cabextract && \
     apt-get -y upgrade && \
-    wget -O - https://github.com/novnc/noVNC/archive/v1.2.0.tar.gz | tar -xzv -C /root/ && mv /root/noVNC-1.2.0 /root/novnc && \
-    wget -O - https://github.com/novnc/websockify/archive/v0.9.0.tar.gz | tar -xzv -C /root/ && mv /root/websockify-0.9.0 /root/novnc/utils/websockify && \
-    # Configure user nobody to match unRAID's settings && \
-    usermod -u 99 nobody && \
-    usermod -g 100 nobody && \
-    usermod -d /config nobody && \
-    chown -R nobody:users /home && \
-    cd /usr/bin/ && \
-    wget  https://raw.githubusercontent.com/Winetricks/winetricks/master/src/winetricks && \
-    chmod +x winetricks && \
-    chmod +x /root/blueiris.sh /root/launch_blueiris.sh /root/check_process.sh /root/service.sh /root/get_latest_ui3.sh && \
-    mkdir -p /usr/share/wine/mono /usr/share/wine/gecko && \
-    mv /root/*gecko*.msi /usr/share/wine/gecko/ && mv /root/*mono*.msi /usr/share/wine/mono/ && \
-    mkdir -p /root/.fluxbox && \
+    wget -O - https://github.com/novnc/noVNC/archive/v1.2.0.tar.gz | tar -xzv -C $HOME && mv $HOME/noVNC-1.2.0 $HOME/novnc && \
+    wget -O - https://github.com/novnc/websockify/archive/v0.9.0.tar.gz | tar -xzv -C $HOME && mv $HOME/websockify-0.9.0 $HOME/novnc/utils/websockify && \
+    wget https://raw.githubusercontent.com/Winetricks/winetricks/master/src/winetricks -O /usr/bin/winetricks && \
+    chmod +x /usr/bin/winetricks
+
+ADD blueiris.sh $HOME/blueiris.sh
+ADD service.reg $HOME/service.reg
+ADD launch_blueiris.sh $HOME/launch_blueiris.sh
+ADD check_process.sh $HOME/check_process.sh
+ADD service.sh $HOME/service.sh
+ADD supervisord-normal.conf /etc/supervisor/conf.d/supervisord-normal.conf
+ADD supervisord-service.conf /etc/supervisor/conf.d/supervisord-service.conf
+ADD menu $HOME/menu
+ADD get_latest_ui3.sh $HOME/get_latest_ui3.sh
+
+RUN chmod +x $HOME/*.sh && \
+    mkdir -p $HOME/.fluxbox && \
     rm -rf /var/lib/apt/lists/* && \
     groupadd wineuser && \
     useradd -m -g wineuser wineuser && \
-    mv /root/* /root/.* /home/wineuser/ || true && \
-    ln -s /home/wineuser/menu /home/wineuser/.fluxbox/menu && \
-    ln -s /home/wineuser/novnc/vnc_lite.html /home/wineuser/novnc/index.html && \
-    mkdir -p /home/wineuser/prefix && \
-    chown -R wineuser:wineuser /home/wineuser
+    ln -s $HOME/menu $HOME/.fluxbox/menu && \
+    ln -s $HOME/novnc/vnc_lite.html $HOME/novnc/index.html && \
+    mkdir -p $HOME/prefix && \
+    chown -R wineuser:wineuser $HOME
 
 
 USER wineuser
-ENV HOME /home/wineuser
-WORKDIR /home/wineuser
-ENV WINEPREFIX /home/wineuser/prefix
-VOLUME /home/wineuser/prefix
-
 
 
 # Expose Port

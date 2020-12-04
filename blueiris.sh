@@ -1,9 +1,9 @@
 #!/bin/bash
 
-BLUEIRIS_EXE="/home/wineuser/prefix/drive_c/Program Files/Blue Iris ${BLUEIRIS_VERSION}/BlueIris.exe"
-BLUEIRIS_INSTALL_PATH="/home/wineuser/prefix/drive_c/Program Files/Blue Iris ${BLUEIRIS_VERSION}"
-PREFIX_DIR="/home/wineuser/prefix"
-INSTALL_EXE="/home/wineuser/blueiris.exe"
+PREFIX_DIR=${WINEPREFIX}
+BLUEIRIS_EXE="$PREFIX_DIR/drive_c/Program Files/Blue Iris ${BLUEIRIS_VERSION}/BlueIris.exe"
+BLUEIRIS_INSTALL_PATH="$PREFIX_DIR/drive_c/Program Files/Blue Iris ${BLUEIRIS_VERSION}"
+INSTALL_EXE=$HOME/blueiris.exe
 
 if [ ! -d "$PREFIX_DIR/drive_c" ]; then
   winetricks win10
