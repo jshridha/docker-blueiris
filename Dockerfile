@@ -14,6 +14,9 @@ ENV BLUEIRIS_VERSION=5
 ENV RESOLUTION=1024x768x24
 ENV USRWINE=/usr/share/wine
 
+EXPOSE 8081
+EXPOSE 8080
+
 RUN mkdir -p /usr/share/wine/mono /usr/share/wine/gecko
 ADD http://dl.winehq.org/wine/wine-gecko/2.47.1/wine-gecko-2.47.1-x86_64.msi $USRWINE/gecko
 ADD http://dl.winehq.org/wine/wine-gecko/2.47.1/wine-gecko-2.47.1-x86.msi $USRWINE/gecko
@@ -52,11 +55,15 @@ RUN chmod +x $HOME/*.sh && \
     chown -R wineuser:wineuser $HOME
 
 
-USER wineuser
+RUN apt update && \
+    apt install -y vainfo vdpauinfo && \
+    apt install -y libva-drm2 libva2 i965-va-driver vainfo intel-media-va-driver && \
+    apt install -y xserver-xorg-video-dummy x11-apps && \
+    apt install -y winehq-staging=5.11~focal wine-staging=5.11~focal wine-staging-i386=5.11~focal wine-staging-amd64=5.11~focal && \
+    rm -rf /var/lib/apt/lists/*
 
-
-# Expose Port
-EXPOSE 8080
+RUN usermod -aG video wineuser && usermod -aG render wineuser
+RUN rm /etc/localtime
 
 ENTRYPOINT ["/usr/bin/supervisord"]
 CMD ["-c", "/etc/supervisor/conf.d/supervisord-normal.conf"]
