@@ -21,7 +21,6 @@ ADD https://dl.winehq.org/wine/wine-mono/5.1.0/wine-mono-5.1.0-x86.msi $USRWINE/
 
 RUN apt-get update && \
     apt-get install -y wget gnupg software-properties-common winbind python python-numpy unzip jq curl && \
-    apt-get -y install libgl1-mesa-glx libgl1-mesa-dri mesa-utils && \
     dpkg --add-architecture i386 && \
     wget -nc https://dl.winehq.org/wine-builds/winehq.key && \
     apt-key add winehq.key && \
