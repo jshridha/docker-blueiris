@@ -64,6 +64,7 @@ RUN apt update && \
 
 RUN usermod -aG video wineuser && usermod -aG render wineuser
 RUN rm /etc/localtime
+COPY xorg.conf /etc/X11/xorg.conf
 
 ENTRYPOINT ["/usr/bin/supervisord"]
 CMD ["-c", "/etc/supervisor/conf.d/supervisord-normal.conf"]
