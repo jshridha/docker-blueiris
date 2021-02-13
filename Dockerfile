@@ -35,6 +35,8 @@ RUN apt-get update && \
     chmod +x /usr/bin/winetricks && \
     rm -rf /var/lib/apt/lists/*
 
+ADD https://blueirissoftware.com/blueiris.exe blueiris_5.exe
+ADD https://blueirissoftware.com/BlueIris_48603.exe blueiris_4.exe
 ADD blueiris.sh $HOME/blueiris.sh
 ADD service.reg $HOME/service.reg
 ADD launch_blueiris.sh $HOME/launch_blueiris.sh
